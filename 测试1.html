@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>人格测试（价值8K）</title>
+  <style>
+    :root {
+      --bg: #ffe6f2;
+      --bg2: #ffd6ec;
+      --panel: #fff8fd;
+      --panel-soft: #fff1f8;
+      --border: #5e4b56;
+      --text: #4b3b44;
+      --accent: #ffb6d9;
+      --accent2: #ff8fbe;
+      --accent3: #ffd166;
+      --green: #b9f0c6;
+      --green2: #95e0ab;
+      --shadow: 6px 6px 0 #c98aa9;
+      --white: #fffdfd;
+      --pink: #ffbfdc;
+      --pink-dark: #ff8fbe;
+      --cream: #ffe8a3;
+      --ear-inner: #f7a8c9;
+      --cat-line: #5e4b56;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Courier New", "Microsoft YaHei", monospace;
+      color: var(--text);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.35) 25%, transparent 25%) -8px 0/16px 16px,
+        linear-gradient(-45deg, rgba(255,255,255,0.35) 25%, transparent 25%) -8px 0/16px 16px,
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.35) 75%) -8px 0/16px 16px,
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.35) 75%) -8px 0/16px 16px,
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .pixel-box {
+      background: var(--panel);
+      border: 4px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      image-rendering: pixelated;
+      position: relative;
+    }
+
+    .pixel-box::before,
+    .pixel-box::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--accent);
+      border: 4px solid var(--border);
+    }
+
+    .pixel-box::before {
+      top: -10px;
+      left: -10px;
+    }
+
+    .pixel-box::after {
+      bottom: -10px;
+      right: -10px;
+      background: var(--accent3);
+    }
+
+    .title {
+      font-size: 28px;
+      margin: 0 0 10px;
+      line-height: 1.3;
+      letter-spacing: 1px;
+      color: #7a4f66;
+      text-shadow: 2px 2px 0 #fff;
+    }
+
+    .subtitle {
+      margin: 0 0 20px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .cat-host {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* 像素小猫 */
+    .cat-avatar {
+      width: 156px;
+      height: 156px;
+      position: relative;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+      filter: drop-shadow(4px 4px 0 #c98aa9);
+    }
+
+    .pixel-cat {
+      position: relative;
+      width: 156px;
+      height: 156px;
+    }
+
+    .cat-face {
+      position: absolute;
+      left: 22px;
+      top: 28px;
+      width: 112px;
+      height: 104px;
+      background: var(--cream);
+      border: 4px solid var(--cat-line);
+      box-shadow: inset 0 -8px 0 rgba(255,255,255,0.2);
+    }
+
+    .cat-ear {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      background: var(--cream);
+      border: 4px solid var(--cat-line);
+      top: 2px;
+      transform: rotate(45deg);
+    }
+
+    .cat-ear.left {
+      left: 28px;
+    }
+
+    .cat-ear.right {
+      right: 28px;
+    }
+
+    .cat-ear::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--ear-inner);
+      left: 7px;
+      top: 7px;
+    }
+
+    .cat-eye {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--cat-line);
+      top: 58px;
+    }
+
+    .cat-eye.left {
+      left: 48px;
+    }
+
+    .cat-eye.right {
+      right: 48px;
+    }
+
+    .cat-eye::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      right: 1px;
+      top: 1px;
+      background: #fff;
+    }
+
+    .cat-blush {
+      position: absolute;
+      width: 16px;
+      height: 8px;
+      background: var(--pink-dark);
+      top: 84px;
+      opacity: 0.85;
+    }
+
+    .cat-blush.left {
+      left: 34px;
+    }
+
+    .cat-blush.right {
+      right: 34px;
+    }
+
+    .cat-nose {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      left: 50%;
+      top: 76px;
+      transform: translateX(-50%);
+      background: #ff9fb9;
+      border: 2px solid var(--cat-line);
+    }
+
+    .cat-mouth {
+      position: absolute;
+      left: 50%;
+      top: 92px;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 12px;
+    }
+
+    .cat-mouth::before,
+    .cat-mouth::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 8px;
+      border-bottom: 3px solid var(--cat-line);
+      top: 0;
+    }
+
+    .cat-mouth::before {
+      left: 1px;
+      border-right: 3px solid var(--cat-line);
+    }
+
+    .cat-mouth::after {
+      right: 1px;
+      border-left: 3px solid var(--cat-line);
+    }
+
+    .cat-paw {
+      position: absolute;
+      bottom: 10px;
+      width: 22px;
+      height: 18px;
+      background: var(--white);
+      border: 4px solid var(--cat-line);
+    }
+
+    .cat-paw.left {
+      left: 34px;
+    }
+
+    .cat-paw.right {
+      right: 34px;
+    }
+
+    .host-text {
+      flex: 1;
+      min-width: 240px;
+      font-size: 15px;
+      line-height: 1.8;
+      background: var(--white);
+      border: 4px solid var(--border);
+      padding: 14px;
+      box-shadow: 4px 4px 0 #dca0bc;
+    }
+
+    .screen {
+      margin-top: 20px;
+    }
+
+    .progress {
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      border: 4px solid var(--border);
+      background: #fff;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--green) 0 16px,
+        var(--green2) 16px 32px
+      );
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      margin-top: 18px;
+      padding: 18px;
+      border: 4px solid var(--border);
+      background: var(--panel-soft);
+      box-shadow: 4px 4px 0 #dca0bc;
+    }
+
+    .question-text {
+      font-size: 20px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      font-weight: bold;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    button.answer-btn,
+    .main-btn {
+      width: 100%;
+      text-align: left;
+      border: 4px solid var(--border);
+      background: #fff;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #dca0bc;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+      color: var(--text);
+    }
+
+    button.answer-btn:hover,
+    .main-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #dca0bc;
+      background: #fff7fb;
+    }
+
+    .main-btn {
+      background: linear-gradient(180deg, #ffc6e3, #ffafd5);
+      text-align: center;
+      font-weight: bold;
+      margin-top: 14px;
+    }
+
+    .result-box {
+      margin-top: 18px;
+      padding: 18px;
+      border: 4px solid var(--border);
+      background: var(--panel-soft);
+      box-shadow: 4px 4px 0 #dca0bc;
+    }
+
+    .result-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #7a4f66;
+    }
+
+    .score {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 4px solid var(--border);
+      background: linear-gradient(180deg, #ff9eca, #ff7db5);
+      color: #fff;
+      font-weight: bold;
+      margin: 8px 0 14px;
+      box-shadow: 4px 4px 0 #dca0bc;
+    }
+
+    .small {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 640px) {
+      .title {
+        font-size: 22px;
+      }
+
+      .question-text {
+        font-size: 17px;
+      }
+
+      .cat-avatar,
+      .pixel-cat {
+        width: 126px;
+        height: 126px;
+      }
+
+      .cat-face {
+        left: 18px;
+        top: 24px;
+        width: 92px;
+        height: 84px;
+      }
+
+      .cat-ear {
+        width: 30px;
+        height: 30px;
+      }
+
+      .cat-eye {
+        top: 50px;
+      }
+
+      .cat-eye.left {
+        left: 38px;
+      }
+
+      .cat-eye.right {
+        right: 38px;
+      }
+
+      .cat-blush {
+        top: 72px;
+      }
+
+      .cat-nose {
+        top: 66px;
+      }
+
+      .cat-mouth {
+        top: 82px;
+      }
+
+      .cat-paw {
+        bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="pixel-box">
+      <h1 class="title">🐾 小猫主持人软某</h1>
+      <p class="subtitle">
+        本测试没有科学依据，没有现实意义，也不会改善你的人生。<br>
+        但软某认为：你既然点开，那应该不是很忙，可以参与一下。
+      </p>
+
+<div class="cat-avatar">
+  <div class="pixel-cat">
+    <div class="cat-head"></div>
+    <div class="cat-ear left"></div>
+    <div class="cat-ear right"></div>
+    <div class="cat-ear-inner left"></div>
+    <div class="cat-ear-inner right"></div>
+
+    <div class="cat-eye left"></div>
+    <div class="cat-eye right"></div>
+    <div class="cat-cheek left"></div>
+    <div class="cat-cheek right"></div>
+
+    <div class="cat-nose"></div>
+    <div class="cat-mouth left"></div>
+    <div class="cat-mouth right"></div>
+
+    <div class="cat-whisker w1"></div>
+    <div class="cat-whisker w2"></div>
+    <div class="cat-whisker w3"></div>
+    <div class="cat-whisker w4"></div>
+
+    <div class="cat-body"></div>
+    <div class="cat-paw left"></div>
+    <div class="cat-paw right"></div>
+    <div class="cat-tail"></div>
+  </div>
+</div>
+
+        <div class="host-text" id="hostText">
+          喵～由于本人在等测试结果 所以我们一起来玩儿个游戏！！<br>
+          您将回答 10 个可以称得上人生终极之问的问题！！！<br>
+            请保证您已经吃过早饭 头脑清醒！！！(ฅ•ω•ฅ)<br>
+          请不要攀比分数，保证真实！你的分数将决定你获得哪一种人生指导 (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+
+      <div id="app" class="screen"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "如果今晚下了大雪❄️，那么你会选择吃什么水果(๑•̀д•́๑)",
+        options: [
+          { text: "苹果，因为我是亚当", score: 1 },
+          { text: "草莓，因为显得可爱", score: 2 },
+          { text: "西瓜，因为我在叛逆期", score: 3 },
+          { text: "榴莲，因为我有异食癖", score: 4 }
+        ]
+      },
+      {
+        q: "假如电梯突然播放一段关于萨特 弗洛伊德以及爱 权力 身体的深夜讲座 你会怎么做(-'_'-) ",
+        options: [
+          { text: "记笔记（谁会随身带纸笔啊喂）证明自己每一次沦陷都出于自由而非重复创伤", score: 1 },
+          { text: "点头 默认爱本来就是欲望 管理 占有和自我欺骗的联合经营", score: 2 },
+          { text: "盯着楼层数字 思考我的身体正在上升 但人格（道德感）似乎还停在负一层", score: 3 },
+          { text: "与电梯辩论（666） 为什么总有人一边引用存在主义 一边把别人当情绪附属器官", score: 4 }
+        ]
+      },
+      {
+        q: "一只会做报表的章鱼（类似章鱼哥可爱版）邀请你吃夜宵 你更可能点什么？",
+        options: [
+          { text: "金汤力 晚上就该喝这个", score: 1 },
+          { text: "炸鸡 因工作压力大而尝试用垃圾食品与抖音填满空虚", score: 2 },
+          { text: "布丁 拍照好看 社交需求", score: 3 },
+          { text: "什么都不点 章鱼好粘有点恶心（章鱼哥：(╯‵□′)╯︵┻━┻ ）", score: 4 }
+        ]
+      },
+      {
+        q: "如果你的影子忽然开始拖延，你会怎么办｡ﾟ(ﾟ´Д｀ﾟ)ﾟ｡",
+        options: [
+          { text: "写一份整改计划给它", score: 1 },
+          { text: "安慰它 大家都有状态差的时候", score: 2 },
+          { text: "躺下", score: 3 },
+          { text: "立刻换个更贵intj人格的灯", score: 4 }
+        ]
+      },
+      {
+        q: "宇宙决定送你一种超能力 你选哪一个( ⁎ᵕᴗᵕ⁎ )❤︎",
+        options: [
+          { text: "精准感知隔壁情侣状态", score: 1 },
+          { text: "知道每一只小猫🐱的真实心情", score: 2 },
+          { text: "能让只剩一只的袜子变成手套", score: 3 },
+          { text: "一眼可以看出每一杯珍珠奶茶有多少颗珍珠", score: 4 }
+        ]
+      },
+      {
+        q: "如果周一有味道，它闻起来更像什么ฅ(๑▽๑)ฅ!!",
+        options: [
+          { text: "打印机刚热起来的空气", score: 1 },
+          { text: "忘记洗的蛋白粉杯子", score: 2 },
+          { text: "超市装过期肉的塑料袋和你的命运", score: 3 },
+          { text: "忘记在洗衣机里一周的衣服", score: 4 }
+        ]
+      },
+      {
+        q: "当你发现冰箱在偷偷观察你时 你第一反应是什么(ﾟ⊿ﾟ)ﾂ ﾌﾞﾝﾌﾞﾝ",
+        options: [
+          { text: "不要只是看 帮我收拾一下冰箱", score: 1 },
+          { text: "和它保持礼貌距离", score: 2 },
+          { text: "A电费啊混蛋", score: 3 },
+          { text: "问它对我的夜宵习惯有什么意见", score: 4 }
+        ]
+      },
+      {
+        q: "如果云朵可以寄快递 你最想收到什么　(ง •̀_•́)ง",
+        options: [
+          { text: "钱", score: 1 },
+          { text: "戚风蛋糕（低糖）", score: 2 },
+          { text: "去年丢掉的体面", score: 3 },
+          { text: "你20年落下的第一颗泪水", score: 4 }
+        ]
+      },
+      {
+        q: "假设你必须给一根胡萝卜做年度绩效评价，你会写什么(　´-` ).｡oO(…)",
+        options: [
+          { text: "npd 自恋型人格 一年内吓哭2000个小朋友", score: 1 },
+          { text: "态度端正，但缺乏戏剧性", score: 2 },
+          { text: "颜色鲜明应该是胡萝卜里的网红", score: 3 },
+          { text: "建议转岗去做玩具", score: 4 }
+        ]
+      },
+      {
+        q: "凌晨三点一块吐司向你咨询人生 你会怎么回答　♪┏(・o･)┛♪",
+        options: [
+          { text: "你不会活很久了 没事", score: 1 },
+          { text: "你已经很棒了 不必和苹果派比较", score: 2 },
+          { text: "你的痛苦来自于你太柔软啦", score: 3 },
+          { text: "沉默 然后丢掉它", score: 4 }
+        ]
+      }
+    ];
+
+    const results = [
+      {
+        min: 10,
+        max: 16,
+        title: "您是一小团安静的奶油云☁️",
+        text: "感谢您的时间！！！！软某觉得你今晚适合继续刷抖音，最好不要突然决定理解人生。你看起来像会把情绪叠好放进抽屉的人（来自脑中随机碎片 没有意义）所以今晚适合吃一点热热的东西，比如热牛奶、面，或者一小块刚出炉的松饼。"
+      },
+      {
+        min: 17,
+        max: 24,
+        title: "你是一颗裹了很多糖的发亮的糖渍栗子🌰",
+        text: "感谢您的时间！！！！！软某觉得你有一点轻飘飘的小聪明，还有一点无伤大雅的狡猾（来自脑中随机碎片 没有意义）你今晚适合吃带一点甜味的夜宵，比如烤红薯、糖炒栗子、焦糖布丁，或者便利店里那种看起来有点可疑但又很好吃的小蛋糕（参考7-11的巧克力卷）。"
+      },
+      {
+        min: 25,
+        max: 32,
+        title: "你是一只在深夜巡逻的蓝莓果酱包🫐",
+        text: "感谢您的时间！！！！！软某觉得你今早脑子转得有点碎，不适合再思考人生（来自脑中随机碎片 没有意义）适合先补充一点糖分和安全感。可以吃草莓吐司、蓝莓酸奶、蜂蜜黄油面包，或者一碗热乎乎的番茄面。吃完之后 请暂时不要对任何东西做过度思考哦。"
+      },
+      {
+        min: 33,
+        max: 40,
+        title: "你是一块被月亮认真偏爱的曲奇🍪",
+        text: "感谢您的时间！！！！软某认为你今晚非常适合获得奖励自己来自脑中随机碎片 没有意义）你整个人都有一种把荒谬当乐趣吃掉的倾向。建议吃薯条、炸鸡、小圆饼干、巧克力牛奶，直接去吃这些垃圾食品让自己开心吧 今晚先快乐一下。"
+      }
+    ];
+
+    let current = 0;
+    let totalScore = 0;
+
+    const app = document.getElementById("app");
+    const hostText = document.getElementById("hostText");
+
+    function renderStart() {
+      app.innerHTML = `
+        <div class="result-box">
+          <div class="result-title">测试说明</div>
+          <div>
+            共 10 题。<br>
+            每题只有你自己知道为什么会选那个答案。<br>
+            软某不会批评你，但会偷偷记录⋌༼ •̀ ⌂ •́ ༽⋋
+          </div>
+          <button class="main-btn" onclick="startQuiz()">开始答题</button>
+        </div>
+      `;
+    }
+
+    function startQuiz() {
+      current = 0;
+      totalScore = 0;
+      hostText.innerHTML = "测试开始 请不要试图从题目里寻找意义 意义正在躲着你（我也只是在摸鱼！！！）";
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const progressPercent = (current / questions.length) * 100;
+      const item = questions[current];
+
+      app.innerHTML = `
+        <div class="progress">
+          第 ${current + 1} / ${questions.length} 题
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${progressPercent}%"></div>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <div class="question-text">${item.q}</div>
+          <div class="answers">
+            ${item.options.map((opt, index) => `
+              <button class="answer-btn" onclick="selectAnswer(${index})">
+                ${String.fromCharCode(65 + index)}. ${opt.text}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function selectAnswer(index) {
+      const item = questions[current];
+      totalScore += item.options[index].score;
+      current++;
+
+      const catLines = [
+        "软某正在认真点头（但并没有看懂）",
+        "这个答案很有态度（恭维）",
+        "很好 你引起了我的注意（参考慕容云海）",
+        "软某做了记录 并露出一种不便解释的表情",
+        "哦～～～～～～～～～～"
+      ];
+
+      hostText.innerHTML = catLines[Math.floor(Math.random() * catLines.length)];
+
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        renderResult();
+      }
+    }
+
+    function getResult(score) {
+      return results.find(r => score >= r.min && score <= r.max) || results[0];
+    }
+
+    function renderResult() {
+      const result = getResult(totalScore);
+
+      app.innerHTML = `
+        <div class="result-box">
+          <div class="result-title">测试结果！！！！：${result.title}</div>
+          <div class="score">你的总分：${totalScore}</div>
+          <div>${result.text}</div>
+          <div class="small">
+            备注：本结果不能用于求职、恋爱、搬家、投融资、养猫许可、但可以用于深夜点外卖决策。<br>
+            也可以证明你愿意花一点你没有产出的时间 参与一件没有结果的事，用来逃避现实压力。
+          </div>
+          <button class="main-btn" onclick="startQuiz()">再测一次</button>
+        </div>
+      `;
+
+      hostText.innerHTML = "测试结束。感谢您的时间！！！！！（ ๑ŏ ﹏ ŏ๑ )";
+    }
+
+    renderStart();
+  </script>
+</body>
+</html>
